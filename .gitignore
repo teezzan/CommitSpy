@@ -64,3 +64,4 @@ typings/
 # JetBrains IDE
 .idea
 sendgrid.env
+payload.json

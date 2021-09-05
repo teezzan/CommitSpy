@@ -78,7 +78,6 @@ module.exports = {
 			},
 			async handler(ctx) {
 				let entity = ctx.params.user;
-				// console.log(entity);
 				await this.validateEntity(entity);
 				if (entity.username) {
 					const found = await this.adapter.findOne({ username: entity.username });
@@ -99,7 +98,6 @@ module.exports = {
 				const user = await this.transformDocuments(ctx, {}, doc);
 				const json = await this.transformEntity(user, true, ctx.meta.token);
 				await this.entityChanged("created", json, ctx);
-				// console.log(json)
 				return json;
 			}
 		},
