@@ -1,7 +1,6 @@
 "use strict";
 
 const { MoleculerClientError } = require("moleculer").Errors;
-// const CacheCleanerMixin = require("../mixins/cache.cleaner.mixin");
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 module.exports = {
@@ -70,9 +69,6 @@ module.exports = {
 					// console.log(mailpayload);
 					sgMail.send(mailpayload)
 						.then(res => {
-							console.log("Success  sending Paid alert=>")
-							// console.log(res)
-							//call action to clear trigger
 							let clear = ctx.call("project.clearAlert", { projects: entity });
 							//call action to deduct money and move to another account where we then split and distribute accordingly
 							let deducted = ctx.call("payment.deductAlert", { projects: entity });
@@ -123,8 +119,6 @@ module.exports = {
 					// console.log(mailpayload);
 					sgMail.send(mailpayload).then(res => {
 						console.log("Success sending unpaid =>")
-						// console.log(res)
-						//call action to clear trigger
 						let clear = ctx.call("project.clearAlert", { projects: entity });
 						return { status: "successs", mailpayload }
 					})
@@ -169,7 +163,6 @@ module.exports = {
 					// console.log(mailpayload);
 					sgMail.send(mailpayload).then(res => {
 						console.log("Success =>")
-						// console.log(res)
 						return { status: "successs", mailpayload }
 					})
 						.catch(err => {
@@ -193,7 +186,6 @@ module.exports = {
 				try {
 					let entity = ctx.params.user;
 					console.log(entity);
-					//compose mail
 					let html = await this.composePassMail({ username: entity.username, url: entity.url });
 					let msg = {
 						to: `${entity.email}`,
@@ -203,7 +195,6 @@ module.exports = {
 						html
 					};
 					sgMail.send([msg]).then(res => {
-						console.log("Success =>");
 						return { status: "successs", msg }
 					})
 						.catch(err => {
